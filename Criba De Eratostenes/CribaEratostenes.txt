@@ -1,0 +1,44 @@
+Sub Criba()
+    Range("A1", "Z100000").Clear
+    
+
+    Dim n As Long
+    n = (InputBox("Ingrese hasta que numero quiere saber los numeros primos: "))
+
+    Dim esPrimo() As Boolean
+    ReDim esPrimo(n)
+
+    For i = 2 To n
+        esPrimo(i) = True
+    Next i
+    
+    For i = 2 To Int(Sqr(n))
+        If esPrimo(i) = True Then
+            For j = i ^ 2 To n Step i
+                esPrimo(j) = False
+            Next j
+        End If
+    Next i
+    
+    Dim fila As Long
+    Dim columna As Long
+    fila = 1
+    columna = 1
+    
+    Set Worksheet = ThisWorkbook.ActiveSheet
+    
+    For i = 2 To n
+        Worksheet.Cells(fila, columna).Value = i
+        Worksheet.Cells(fila, columna).Interior.Color = RGB(169, 208, 142)
+        Worksheet.Cells(fila, columna).BorderAround Weight:=xlThin, Color:=RGB(0, 0, 0)
+        If esPrimo(i) = True Then
+            Worksheet.Cells(fila, columna).Interior.Color = RGB(0, 255, 0)
+        End If
+        columna = columna + 1
+        If columna > 10 Then
+            fila = fila + 1
+            columna = 1
+        End If
+    Next i
+    
+End Sub
